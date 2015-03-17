@@ -3,4 +3,4 @@
 /.settings/
 /data/
 outfile.python
-*.ipynb
+/notebooks
