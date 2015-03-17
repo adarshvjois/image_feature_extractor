@@ -31,7 +31,7 @@ public:
 	FeatureVec(string file_name, string label);
 	FeatureVec(string file_name, string label, int rows, int cols);
 
-	Mat getGrayLaplacianDownSample();
+	void getGrayLaplacianDownSample(stringstream &ss); //keeps appending stuff to a string stream
 	string getFeatures(); //returns all the features as a line of a csv
 	virtual ~FeatureVec();
 	bool isGood();

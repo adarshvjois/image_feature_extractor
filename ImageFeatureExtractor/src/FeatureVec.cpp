@@ -50,28 +50,32 @@ FeatureVec::FeatureVec(string file_name, string label) {
 	}
 }
 
-Mat FeatureVec::getGrayLaplacianDownSample() {
-
-	pyrDown(im_gray, im_lap4);
-
-	Mat line_im_lap4(im_lap4.rows, im_lap4.cols, im_lap4.type());
-	line_im_lap4 = im_lap4.reshape(0, 1);
+void FeatureVec::getGrayLaplacianDownSample(stringstream &ss) {
+	//pyramid downsampler
+	pyrDown(im_gray, FeatureVec::im_lap4);
+	//alloc memory
+	Mat line_im_lap4(FeatureVec::im_lap4.rows, FeatureVec::im_lap4.cols,
+			FeatureVec::im_lap4.type());
+	//boom. we have a line
+	line_im_lap4 = FeatureVec::im_lap4.reshape(0, 1);
 	if (verbose)
-		cout << "Final out has dim(" << line_im_lap4.rows << ", "
-				<< line_im_lap4.cols << ")" << endl;
-	return line_im_lap4;
+		cout << "Final out has dim( " << im_lap4.rows << ", "
+				<< im_lap4.cols << ")" << endl;
+	//writing shape params to stream.
+	ss << FeatureVec::im_lap4.rows << ", " << FeatureVec::im_lap4.cols << ", ";
+	csv_formatter->write(ss, line_im_lap4); //appending the matrix to string stream
+
 }
 
 string FeatureVec::getFeatures() {
-//returns all the features as a line of a csv
-	stringstream ss;
-//FEATURE-SET 1
+	//returns all the features as a line of a csv
+
+	stringstream ss; // buffer to which i keep appending stuff so that I don't need to make
+	// unwanted copies of strings. Heap will go out of whack.
+	//FEATURE-SET 1
 	if (verbose)
-		cout << "Extracting getGrayLaplacianDownSample:" << endl;
-	ss << ", " << im_lap4.rows << ", " << im_lap4.cols; //housekeeping, so i know how to reshape this.
-	csv_formatter->write(ss, getGrayLaplacianDownSample()); //keep writing new features to this stream
-
-
+		cout << "Extracting getGrayLaplacianDownSample: " << endl;
+	getGrayLaplacianDownSample(ss);
 //END OF FEATURE-SET1
 
 	return ss.str();
