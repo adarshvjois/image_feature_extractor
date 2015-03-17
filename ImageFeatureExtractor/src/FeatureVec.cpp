@@ -68,8 +68,9 @@ string FeatureVec::getFeatures() {
 //FEATURE-SET 1
 	if (verbose)
 		cout << "Extracting getGrayLaplacianDownSample:" << endl;
-	csv_formatter->write(ss, getGrayLaplacianDownSample()); //keep writing new features to this stream
 	ss << ", " << im_lap4.rows << ", " << im_lap4.cols; //housekeeping, so i know how to reshape this.
+	csv_formatter->write(ss, getGrayLaplacianDownSample()); //keep writing new features to this stream
+
 
 //END OF FEATURE-SET1
 
