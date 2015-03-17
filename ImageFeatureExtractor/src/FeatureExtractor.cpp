@@ -26,7 +26,8 @@ bool is_number(const std::string& s) {
 	return !s.empty() && it == s.end();
 }
 
-vector<csv_rec> parse_csv(string prepend_path, ifstream &csv_file) {
+vector<csv_rec> parse_csv(string prepend_path, string extn,
+		ifstream &csv_file) {
 	vector<csv_rec> recs;
 
 	while (!csv_file.eof()) {
@@ -80,18 +81,20 @@ int write_features_to_file(vector<csv_rec> records, ostream &outfile, int rows,
 	return count;
 }
 int main(int argc, char**argv) {
-	//TODO Add some stuff to handle file extensions, csv might not have them.
+	//TODO Add some stuff to handle different file extensions, csv might not have them.
 	vector<csv_rec> records;
 	int rows = 0;
 	int cols = 0;
-
+	string extn = "";
 	if (argc < 3) {
-		cout
-				<< "Usage Downsampler <input_csv_with_labels_and_file_names> <outputfile> [<rows> <colums>] [-v]"
-				<< endl;
+		cout << "Usage:"
+				<< " \" FeatureExtractor <input_csv_with_labels_and_file_names> "
+				<< "<outputfile> [<rows> <colums>] [-v] [file extension]\" "
+				<< "Don't change the order of the args" << endl;
 		return -1;
 	}
-	if (argc == 6) {
+	if (argc > 5) { //Optional args.
+		//get width and height of output if specified.
 		string s_rows = argv[3];
 		string s_columns = argv[4];
 
@@ -102,24 +105,33 @@ int main(int argc, char**argv) {
 			cout << "Error in args" << endl;
 			return -1;
 		}
-		string v(argv[5]);
-		if (v.compare("-v") == 0) {
-			verbose = true;
+
+		if (argc >= 6) {
+			string v(argv[5]); //verbosity setting
+			if (v.compare("-v") == 0) {
+				verbose = true;
+			}
+			if (argc == 7) { //file extension if specified.
+				extn = string(argv[7]);
+			}
 		}
 	}
+
+	//Read the csv with input specs.
 	ifstream csv_file(argv[1]);
 
 	clock_t t1, t2; //timers
 	t1 = clock();
 	if (csv_file.is_open()) {
-		string path_to(argv[1]);
-		int pos = path_to.find_last_of('/');
+		string path_to(argv[1]); // assuming user should give relative path to csv from exec.
+		int pos = path_to.find_last_of('/'); // and images should be in the same directory. Coz csv wont have full path of image
 		//build index of files.
-		records = parse_csv(path_to.substr(0, pos + 1), csv_file);
+		records = parse_csv(path_to.substr(0, pos + 1), extn, csv_file);
 	} else {
 		cout << "Couldn't open csv. check path, or if file exists" << endl;
 		return -1;
 	}
+	//for output.
 	filebuf fb;
 	fb.open(argv[2], ios::out);
 	int count = 0;
