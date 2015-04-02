@@ -27,11 +27,13 @@ private:
 	bool good;
 	string label;
 	static Formatter const * csv_formatter;
+
 public:
 	FeatureVec(string file_name, string label);
 	FeatureVec(string file_name, string label, int rows, int cols);
 
 	void getGrayLaplacianDownSample(stringstream &ss); //keeps appending stuff to a string stream
+	void getHistogramEqualizeCropped(stringstream &ss);
 	string getFeatures(); //returns all the features as a line of a csv
 	virtual ~FeatureVec();
 	bool isGood();

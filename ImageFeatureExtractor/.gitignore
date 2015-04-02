@@ -1,6 +1,9 @@
-/Debug/
 /imgcap/
 /.settings/
 /data/
 outfile.python
 /notebooks
+/Debug/ImageFeatureExtractor
+/Debug/src/*.d
+/Debug/src/*.o
+/Debug/
