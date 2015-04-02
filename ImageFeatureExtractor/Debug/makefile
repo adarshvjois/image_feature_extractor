@@ -35,7 +35,7 @@ endif
 endif
 
 -include ../makefile.defs
-
+    
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
@@ -45,7 +45,7 @@ all: ImageFeatureExtractor
 ImageFeatureExtractor: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L/usr/local/cuda/lib64 -L/usr/local/lib -o "ImageFeatureExtractor" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L/share/apps/cuda/6.5.12/lib64 -L/share/apps/opencv/2.4.10/intel/lib -o "ImageFeatureExtractor" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
