@@ -111,8 +111,8 @@ int main(int argc, char**argv) {
 			if (v.compare("-v") == 0) {
 				verbose = true;
 			}
-			if (argc == 7) { //file extension if specified.
-				extn = string(argv[7]);
+			if (argc == 6) { //file extension if specified.
+				extn = string(argv[6]);
 			}
 		}
 	}

@@ -6,4 +6,7 @@ outfile.python
 /Debug/ImageFeatureExtractor
 /Debug/src/*.d
 /Debug/src/*.o
+/Debug/src/utils/*.o
+/Debug/src/utils/*.d
+
 /Debug/
